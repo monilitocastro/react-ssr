@@ -1,7 +1,11 @@
-import express from "express";
 import "babel-polyfill";
+import express from "express";
+import { matchRoutes } from "react-router-config";
+
 import renderReact from "./helpers/renderer";
 import createStore from "./helpers/createStore";
+import Routes from "./client/Routes";
+import { setTimeout } from "timers";
 
 const app = express();
 
@@ -9,7 +13,14 @@ app.use(express.static("public"));
 
 app.get("*", (req, res) => {
   const store = createStore();
-  res.send(renderReact(store, req));
+
+  const routes = matchRoutes(Routes, req.path).map(({ route }) => {
+    return route.loadData ? route.loadData(store) : null;
+  });
+
+  Promise.all(routes).then(() => {
+    res.send(renderReact(store, req));
+  });
 });
 
 app.listen(3000, () => {

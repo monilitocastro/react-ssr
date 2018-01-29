@@ -18,7 +18,7 @@ class Users extends Component {
     }
   }
   renderUsers() {
-    const { users } = this.state;
+    const { users } = this.props;
     if (!users) {
       return;
     }
@@ -32,11 +32,15 @@ class Users extends Component {
   }
 }
 
+function loadData(store) {
+  return store.dispatch(fetchUsers());
+}
+
 function mapStateToProps(state) {
-  // console.log("STATE: ", state);
   return {
     users: state.usersReducer.users
   };
 }
 
+export { loadData };
 export default connect(mapStateToProps, { fetchUsers })(Users);
