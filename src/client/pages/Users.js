@@ -8,8 +8,11 @@ class Users extends Component {
     super(props);
     this.state = { users: [] };
   }
-  componentWillMount() {
-    this.props.fetchUsers();
+  componentDidMount() {
+    if (this.visited) {
+      this.props.fetchUsers();
+    }
+    this.visited = true;
   }
   componentWillReceiveProps(nextProps) {
     const { users } = nextProps;
@@ -22,8 +25,8 @@ class Users extends Component {
     if (!users) {
       return;
     }
-    const result = users.map((user, i) => {
-      return <li key={i}>{user.name}</li>;
+    const result = users.map(user => {
+      return <li key={user.id}>{user.name}</li>;
     });
     return result;
   }
@@ -42,5 +45,5 @@ function mapStateToProps(state) {
   };
 }
 
-export { loadData };
-export default connect(mapStateToProps, { fetchUsers })(Users);
+Users = connect(mapStateToProps, { fetchUsers })(Users);
+export default { loadData, component: Users };

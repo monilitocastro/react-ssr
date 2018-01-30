@@ -1,21 +1,18 @@
 import React from "react";
-import Home from "./components/Home";
-import Users, { loadData } from "./components/Users";
+import Home from "./pages/Home";
+import Users from "./pages/Users";
 
 const routes = [
   {
     path: "/",
     exact: true,
-    component: Home
+    ...Home
   },
   {
-    loadData,
     path: "/users",
     exact: true,
-    component: Users
+    ...Users
   }
 ];
 
 export default routes;
-// <Route exact path="/" component={Home} />
-// <Route exact path="/users" component={Users} />

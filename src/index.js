@@ -5,7 +5,6 @@ import { matchRoutes } from "react-router-config";
 import renderReact from "./helpers/renderer";
 import createStore from "./helpers/createStore";
 import Routes from "./client/Routes";
-import { setTimeout } from "timers";
 
 const app = express();
 
