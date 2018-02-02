@@ -1,20 +1,32 @@
 import axios from "axios";
-import { USERS_FETCHED } from "./types";
+import { USERS_FETCHED, CURRENT_USER_FETCHED } from "./types";
 
 export const fetchUsers = () => {
-  return async dispatch => {
-    const results = await axios.get("http://react-ssr-api.herokuapp.com/users");
-    const users = results.data;
-    dispatch({
-      type: USERS_FETCHED,
-      users
-    });
-    // if (results.status >= 200 && results.status < 400) {
-    //   console.log("USERS FETCHED SUCCESS", users);
-    //   dispatch({
-    //     type: USERS_FETCHED,
-    //     users
-    //   });
-    // }
+  return async (dispatch, getState, api) => {
+    try {
+      const results = await api.get("/users");
+      const users = results.data;
+      dispatch({
+        type: USERS_FETCHED,
+        users
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+};
+
+export const fetchCurrentUser = () => {
+  return async (dispatch, getState, api) => {
+    try {
+      const results = await api.get("/current_user");
+      const currentUser = results.data;
+      dispatch({
+        type: CURRENT_USER_FETCHED,
+        currentUser
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 };
