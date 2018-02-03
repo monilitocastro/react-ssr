@@ -440,6 +440,10 @@ var _serializeJavascript = __webpack_require__(15);
 
 var _serializeJavascript2 = _interopRequireDefault(_serializeJavascript);
 
+var _reactHelmet = __webpack_require__(29);
+
+var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
+
 var _Routes = __webpack_require__(6);
 
 var _Routes2 = _interopRequireDefault(_Routes);
@@ -461,7 +465,9 @@ exports.default = function (store, req, context) {
     )
   ));
 
-  var html = "\n    <html>\n        <head>\n        <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css\">\n        </head>\n        <body>\n            <div id='root'>" + content + "</div>\n            <script>\n              window.INITIAL_STATE = " + (0, _serializeJavascript2.default)(store.getState()) + "\n            </script>\n            <script src='bundle.js'></script>\n        </body>\n    </html>\n  ";
+  var helmet = _reactHelmet2.default.renderStatic();
+
+  var html = "\n    <html>\n        <head>\n        <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css\">\n        " + helmet.title.toString() + "\n        " + helmet.meta.toString() + "\n        </head>\n        <body>\n            <div id='root'>" + content + "</div>\n            <script>\n              window.INITIAL_STATE = " + (0, _serializeJavascript2.default)(store.getState()) + "\n            </script>\n            <script src='bundle.js'></script>\n        </body>\n    </html>\n  ";
   return html;
 };
 
@@ -536,6 +542,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(1);
 
+var _reactHelmet = __webpack_require__(29);
+
 var _actions = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -593,12 +601,31 @@ var Users = function (_Component) {
       return result;
     }
   }, {
+    key: "renderHelmet",
+    value: function renderHelmet() {
+      return _react2.default.createElement(
+        _reactHelmet.Helmet,
+        null,
+        _react2.default.createElement(
+          "title",
+          null,
+          this.props.users.length + " Users Loaded"
+        ),
+        _react2.default.createElement("meta", { property: "og:title", content: "Users Page" })
+      );
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react2.default.createElement(
-        "ul",
+        "div",
         null,
-        this.renderUsers.bind(this)()
+        this.renderHelmet.bind(this)(),
+        _react2.default.createElement(
+          "ul",
+          null,
+          this.renderUsers.bind(this)()
+        )
       );
     }
   }]);
@@ -1124,6 +1151,12 @@ function authReducer() {
       return state;
   }
 }
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-helmet");
 
 /***/ })
 /******/ ]);

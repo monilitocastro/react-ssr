@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import { fetchUsers } from "../actions";
 
@@ -30,8 +31,21 @@ class Users extends Component {
     });
     return result;
   }
+  renderHelmet() {
+    return (
+      <Helmet>
+        <title>{`${this.props.users.length} Users Loaded`}</title>
+        <meta property="og:title" content="Users Page" />
+      </Helmet>
+    );
+  }
   render() {
-    return <ul>{this.renderUsers.bind(this)()}</ul>;
+    return (
+      <div>
+        {this.renderHelmet.bind(this)()}
+        <ul>{this.renderUsers.bind(this)()}</ul>
+      </div>
+    );
   }
 }
 
