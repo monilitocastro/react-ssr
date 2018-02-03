@@ -1,14 +1,22 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchCurrentUser } from "../actions";
 
 const renderAuthButtons = auth => {
+  const result = [];
   if (auth) {
-    return (
-      <li>
+    return [
+      <li key={"1"}>
+        <Link to={"/Users"}>Users</Link>
+      </li>,
+      <li key={"2"}>
+        <Link to={"/Admins"}>Admin</Link>
+      </li>,
+      <li key={"3"}>
         <a href="/api/Logout">Logout</a>
       </li>
-    );
+    ];
   } else {
     return (
       <li>
@@ -16,6 +24,7 @@ const renderAuthButtons = auth => {
       </li>
     );
   }
+  return result;
 };
 const Header = ({ auth }) => {
   return (
@@ -33,7 +42,6 @@ const Header = ({ auth }) => {
 };
 
 function mapStateToProps(state) {
-  console.log("STATE: ", state);
   return {
     auth: state.auth
   };

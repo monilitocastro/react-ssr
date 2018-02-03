@@ -23,13 +23,26 @@ app.use(express.static("public"));
 
 app.get("*", (req, res) => {
   const store = createStore(req);
+  const context = {};
 
+  // let all promise resolve or reject before
+  // placing in another promise
   const routes = matchRoutes(Routes, req.path).map(({ route }) => {
     return route.loadData ? route.loadData(store) : null;
   });
 
   Promise.all(routes).then(() => {
-    res.send(renderReact(store, req));
+    const renderer = renderReact(store, req, context);
+
+    const { NotFound, url } = context;
+    if (NotFound) {
+      res.status(404);
+    }
+    if (url) {
+      res.redirect("/");
+    }
+
+    res.send(renderReact(store, req, context));
   });
 });
 

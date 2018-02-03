@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { renderRoutes } from "react-router-config";
 
-import Header from "./Header";
+import Header from "../components/Header";
 import { fetchCurrentUser } from "../actions/index";
 
 const App = ({ route }) => {
